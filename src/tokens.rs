@@ -1,0 +1,10 @@
+pub const TEN: char = '\u{10110}';
+pub const TWENTY: char = '\u{10111}';
+pub const THIRTY: char = '\u{10112}';
+pub const FOURTY: char = '\u{10113}';
+pub const FIFTY: char = '\u{10114}';
+pub const SIXTY: char = '\u{10115}';
+pub const SEVENTY: char = '\u{10116}';
+pub const EIGHTY: char = '\u{10117}';
+pub const NINETY: char = '\u{10118}';
+pub const HUNDRED: char = '\u{10119}';

@@ -3,7 +3,15 @@ name = "battrs"
 version = "0.1.0"
 authors = ["Danny Hadley <dadleyy@gmail.com>"]
 edition = "2018"
+license = "MIT"
+homepage = "https://github.com/dadleyy/battrs"
+repository = "https://github.com/dadleyy/battrs.git"
+description = "Battery level information"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "battrs"
+path = "src/lib.rs"
 
-[dependencies]
+[[bin]]
+name = "battrs"
+path = "src/bin/main.rs"
