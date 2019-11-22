@@ -1,13 +1,9 @@
 use std::io::Error;
 
-use battrs::{draw, measure};
+use battrs::measure;
 
 fn main() -> Result<(), Error> {
   let measurement = measure()?;
-
-  if let Some(token) = draw(measurement) {
-    println!("{}", token);
-  }
-
+  println!("{}", measurement);
   Ok(())
 }
