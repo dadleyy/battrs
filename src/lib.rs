@@ -1,3 +1,6 @@
+use std::io::{Error, ErrorKind};
+use std::process::Command;
+
 mod tokens;
 
 #[derive(Debug, PartialEq)]
@@ -31,19 +34,30 @@ where
   })
 }
 
-pub fn draw(amount: u8) -> char {
-  match amount {
-    0..=10 => tokens::TEN,
-    11..=20 => tokens::TWENTY,
-    21..=30 => tokens::THIRTY,
-    31..=40 => tokens::FOURTY,
-    41..=50 => tokens::FIFTY,
-    51..=60 => tokens::SIXTY,
-    61..=70 => tokens::SEVENTY,
-    71..=80 => tokens::EIGHTY,
-    81..=90 => tokens::NINETY,
-    _ => tokens::HUNDRED,
+pub fn draw(source: PowerSource) -> Option<char> {
+  if let PowerSource::Battery(amount) = source {
+    let token = match amount {
+      0..=10 => tokens::TEN,
+      11..=20 => tokens::TWENTY,
+      21..=30 => tokens::THIRTY,
+      31..=40 => tokens::FOURTY,
+      41..=50 => tokens::FIFTY,
+      51..=60 => tokens::SIXTY,
+      61..=70 => tokens::SEVENTY,
+      71..=80 => tokens::EIGHTY,
+      81..=90 => tokens::NINETY,
+      _ => tokens::HUNDRED,
+    };
+    return Some(token);
   }
+
+  None
+}
+
+pub fn measure() -> Result<PowerSource, Error> {
+  let result = Command::new("pmset").arg("-g").arg("batt").output()?;
+  let output = String::from_utf8(result.stdout).map_err(|e| Error::new(ErrorKind::Other, e))?;
+  parse(output).ok_or(Error::new(ErrorKind::NotFound, "Unable to produce measurement"))
 }
 
 #[cfg(test)]

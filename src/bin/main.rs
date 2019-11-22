@@ -1,15 +1,12 @@
-use std::io::{Error, ErrorKind};
-use std::process::Command;
+use std::io::Error;
 
-use battrs::{draw, parse, PowerSource};
+use battrs::{draw, measure};
 
 fn main() -> Result<(), Error> {
-  let result = Command::new("pmset").arg("-g").arg("batt").output()?;
-  let output = String::from_utf8(result.stdout).map_err(|e| Error::new(ErrorKind::Other, e))?;
-  let source = parse(output);
+  let measurement = measure()?;
 
-  if let Some(PowerSource::Battery(amount)) = source {
-    println!("source: {}", draw(amount));
+  if let Some(token) = draw(measurement) {
+    println!("{}", token);
   }
 
   Ok(())
